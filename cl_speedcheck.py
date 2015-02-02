@@ -7,12 +7,13 @@ import re
 state='MN'
 
 filename = 'results_'+datetime.now().strftime("%Y-%m-%d")
+bad_addresses = filename+'_bad_addresses'
 
 f = open(filename,'w')
 f.write("Street, City, State, Zip, Speed\n")
 f.close()
 
-e = open(filename+'_bad_addresses','w')
+e = open(bad_addresses,'w')
 e.close()
 
 def test(street, city, zip):
@@ -37,7 +38,7 @@ def test(street, city, zip):
         browser.quit()
 	f.close()
     except:
-        e = open('bad_addresses','a')
+        e = open(bad_addresses,'a')
         e.write(street+', '+city+', '+state+', '+zip+'\n')
         e.close()
         browser.quit()
