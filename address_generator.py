@@ -29,13 +29,14 @@ while curr_lon < end_lon or curr_lat > end_lat:
         print addr
         f = open(filename,'r+a')
         if addr not in f.read():
+            addr = addr+",%s,%s,ROOFTOP"%(curr_lat, curr_lon)
             f.write(addr+"\n")
         f.close()
     if curr_lat > end_lat:
-        curr_lat = curr_lat - .0035
+        curr_lat = curr_lat - .002
     else:
         curr_lat = start_lat
-        curr_lon = curr_lon + .0065
+        curr_lon = curr_lon + .002
     sleep_cycle = sleep_cycle + 1
     if sleep_cycle == 4:
         time.sleep(1)

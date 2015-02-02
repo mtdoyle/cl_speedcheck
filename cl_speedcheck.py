@@ -10,13 +10,13 @@ filename = 'results_'+datetime.now().strftime("%Y-%m-%d")
 bad_addresses = filename+'_bad_addresses'
 
 f = open(filename,'w')
-f.write("Street, City, State, Zip, Speed\n")
+f.write("Street, City, State, Zip, Speed,emm_lat, emm_lng, emm_acc\n")
 f.close()
 
 e = open(bad_addresses,'w')
 e.close()
 
-def test(street, city, zip):
+def test(street, city, zip, emm_stuff):
     try:
 	f = open(filename,'a')
         browser = Browser()
@@ -34,7 +34,7 @@ def test(street, city, zip):
         extracted_speed_match = re.search("(\d+\.?\d?)",element.text)
         output = re.sub('\s+',' ', street+', '+city+', '+state+','+zip+', '+extracted_speed_match.group(0))
         print output 
-        f.write(output+"\n")
+        f.write(output+",%s,%s,%s\n"%(emm_stuff[0], emm_stuff[1],emm_stuff[2]))
         browser.quit()
 	f.close()
     except:
@@ -48,7 +48,8 @@ def run_test(i):
     street = i.split(',')[0]
     city = i.split(',')[1]
     zip = i.split(',')[2]
-    test(street, city, zip)
+    emm_stuff = i.split(',')[3:]
+    test(street, city, zip, emm_stuff)
 
 def do_stuff(q):
     while True:
@@ -56,7 +57,7 @@ def do_stuff(q):
         q.task_done()
 
 q = Queue(maxsize=0)
-num_threads = 15
+num_threads = 5
 
 for i in range(num_threads):
     worker = Thread(target=do_stuff, args=(q,))
