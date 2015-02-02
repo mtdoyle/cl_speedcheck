@@ -18,7 +18,8 @@ Requirements for cl_speedcheck.py:
 This script could use some work. It opens 15 instances of Firefox and queries the CenturyLink website for the fastest available speed at each address. The number of instances opened can be alterd by changing the value of "num_threads". Sometimes the address checked is an apartment building and I believe the script just fails or crashes - but I catch the exception and basically ignore it so the script can keep running. I don't really use the "bad_addresses" output file since some of the address that can end up in there could be valid addresses but something just went wrong while the script ran.
 
 The output of this script is a list of addresses that were successfully checked in this format:
-  \<street>, \<city>, \<state>, \<zip>, \<highest speed in Mbps>
+
+    <street>, <city>, <state>, <zip>, <highest speed in Mbps>
   
 If an address has gigabit available, it will show up as 1000.
 
