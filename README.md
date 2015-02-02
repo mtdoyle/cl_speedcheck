@@ -25,4 +25,10 @@ The output of this script is a list of addresses that were successfully checked 
   
 If an address has gigabit available, it will show up as 1000.
 
+To map these results, use a service such as http://www.easymapmaker.com. For easymapmaker.com, replace all commas in the results_* file with tabs. Then, you can simply copy+paste the file contents into easymapmaker.com and it'll process them. 
+
 Happy checking!
+
+
+TODO:
+ 1. Include the lat/long coordinates in the file to potentially speed up the processing that easymapmaker.com does. 
