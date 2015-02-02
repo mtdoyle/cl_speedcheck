@@ -31,4 +31,4 @@ Happy checking!
 
 
 TODO:
- 1. Include the lat/long coordinates in the file to potentially speed up the processing that easymapmaker.com does. 
+ 1. <s>Include the lat/long coordinates in the file to potentially speed up the processing that easymapmaker.com does.</s> 
