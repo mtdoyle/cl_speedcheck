@@ -31,7 +31,7 @@ while curr_lon < end_lon or curr_lat > end_lat:
             f = open(filename,'r+a')
             if addr not in f.read():
                 accurate_coords = geocoder.geocode(addr).coordinates
-                addr = addr+",%s,%s,ROOFTOP"%(accurate_coords[0], accurate_coords[1])
+                addr = "%s,%s,%s,ROOFTOP"%(addr,accurate_coords[0], accurate_coords[1])
                 f.write(addr+"\n")
             f.close()
         if curr_lat > end_lat:
