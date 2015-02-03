@@ -44,7 +44,3 @@ while curr_lon < end_lon or curr_lat > end_lat:
             sleep_cycle = 0
     except:
         continue
-
-if __name__ == "__main__":
-    
-
