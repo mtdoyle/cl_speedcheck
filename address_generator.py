@@ -1,3 +1,4 @@
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 from pygeocoder import Geocoder
 from datetime import datetime
 import time
@@ -8,18 +9,27 @@ filename = 'addresses'
 f = open(filename,'w')
 f.close()
 
-start_lat=
-start_lon=
+geocoder = Geocoder()
 
-end_lat=
-end_lon=
+address_1 = raw_input('Enter first address: ')
+address_2 = raw_input('Enter second address: ')
+
+address_1_coords = geocoder.geocode(address_1).coordinates
+address_2_coords = geocoder.geocode(address_2).coordinates
+
+
+
+start_lat=max(address_1_coords[0],address_2_coords[0])
+start_lon=min(address_1_coords[1],address_2_coords[1])
+
+end_lat=min(address_1_coords[0],address_2_coords[0])
+end_lon=max(address_1_coords[1],address_2_coords[1])
 
 sleep_cycle=0
 
 curr_lat = start_lat
 curr_lon = start_lon
 
-geocoder = Geocoder()
 
 while curr_lon < end_lon or curr_lat > end_lat:
     try:
