@@ -1,3 +1,4 @@
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 from Queue import Queue
 from threading import Thread
 from splinter import Browser
@@ -16,32 +17,45 @@ f.close()
 e = open(bad_addresses,'w')
 e.close()
 
-def test(street, city, zip, emm_stuff):
-    try:
-	f = open(filename,'a')
-        browser = Browser()
-        browser.visit('https://shop.centurylink.com/MasterWebPortal/freeRange/login/shop')
-        browser.fill('form.streetAddress1', street)
-        browser.fill('form.city', city)
-        browser.select('form.addressState', state)
-        browser.fill('form.addresszip', zip)
-        browser.find_by_id('submitAuthAddress').first.click()
-        browser.is_text_present('Choose an Offer', wait_time=5)
+def test2(address, emm_stuff):
+    address_tmp = address.split(',')
+    address = "%s, %s, %s, %s"%(address_tmp[0],address_tmp[1],state,address_tmp[2])
+    try_again = True
+    while (try_again):
         try:
-            element = browser.find_by_css('.highestSpeed')
+            f = open(filename,'a')
+            browser = Browser()
+            browser.visit('http://www.centurylink.com/')
+            browser.find_by_id('landingRes').first.click()
+            browser.find_by_id('home-speed-check').first.click()
+            browser.find_by_id('ctam_new-customer-link').first.click()
+            browser.is_text_present('Please enter your service address so we can show you accurate pricing product availability in your area', wait_time=5)
+            browser.fill('form.singleLineAddress', address)
+            browser.is_element_present_by_css('.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all', 15)
+            addressFound = browser.find_by_css('.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li a').first.text
+            browser.find_by_css('.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li a').first.click()
+                   
+            addressFound_formatted = re.sub(r'%s (\d+)'%(state), r'%s,\1'%(state), addressFound)  
+            addressFound_formatted = re.sub(',USA', '', addressFound_formatted)  
+            browser.is_text_present('Choose an Offer', wait_time=5)
+            try:
+                element = browser.find_by_css('.highestSpeed')
+            except:
+                element = browser.find_by_css('.dialupOnly')
+            extracted_speed_match = re.search("(\d+\.?\d?)",element.text)
+            output = re.sub('\s+',' ', addressFound_formatted+', '+extracted_speed_match.group(0))
+            print output
+            f.write(output+",%s,%s,%s\n"%(emm_stuff[0], emm_stuff[1],emm_stuff[2]))
+            browser.quit()
+            try_again=False
+            f.close()
         except:
-            element = browser.find_by_css('.dialupOnly')
-        extracted_speed_match = re.search("(\d+\.?\d?)",element.text)
-        output = re.sub('\s+',' ', street+', '+city+', '+state+','+zip+', '+extracted_speed_match.group(0))
-        print output 
-        f.write(output+",%s,%s,%s\n"%(emm_stuff[0], emm_stuff[1],emm_stuff[2]))
-        browser.quit()
-	f.close()
-    except:
-        e = open(bad_addresses,'a')
-        e.write(street+', '+city+', '+state+', '+zip+'\n')
-        e.close()
-        browser.quit()
+            try_again = False
+            e = open('bad_addresses','a')
+            e.write(address+'\n')
+            e.close()
+            browser.quit()
+
 
 def run_test(i):
     i = i.strip()
@@ -49,7 +63,7 @@ def run_test(i):
     city = i.split(',')[1]
     zip = i.split(',')[2]
     emm_stuff = i.split(',')[3:]
-    test(street, city, zip, emm_stuff)
+    test2(i, emm_stuff)
 
 def do_stuff(q):
     while True:
