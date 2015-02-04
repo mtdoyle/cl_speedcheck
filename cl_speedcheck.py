@@ -6,7 +6,7 @@ import re
 
 state='MN'
 
-filename = 'results_'+datetime.now().strftime("%Y-%m-%d")
+filename = 'results_%s.csv'%(datetime.now().strftime("%Y-%m-%d"))
 bad_addresses = filename+'_bad_addresses'
 
 f = open(filename,'w')
