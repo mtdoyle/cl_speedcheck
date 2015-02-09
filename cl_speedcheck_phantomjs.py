@@ -86,7 +86,7 @@ for i in range(num_threads):
     worker.setDaemon(True)
     worker.start()
 
-houses = open('unused_addresses','r')
+houses = open('addresses','r')
 
 for x in houses.readlines():
     q.put(x)
