@@ -46,7 +46,8 @@ Requirements for cl_speedcheck.py:
 Requirements for cl_speedcheck_rabbitmq_phantomjs.py:
 
   1. Same as above, but you'll also need rabbitmq. You should name the channel "clspeed" or edit the script to whatever your channel name is. 
+  2. Pika (rabbitmq module for python): "pip install pika"
 
-Explaining how to set up/use rabbitmq would take too long, but for those of you who are familiar with it, go ahead and try this script. I uploaded this one because it's the one I currently use and wanted to version control it. 
+Explaining how to set up/use rabbitmq is outside of the scope of sharing these scripts, but for those of you who are familiar with it, go ahead and try this script. I uploaded this one because it's the one I currently use and wanted to version control it. 
 
 Happy checking!
