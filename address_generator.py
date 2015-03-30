@@ -31,7 +31,7 @@ curr_lat = start_lat
 curr_lon = start_lon
 
 
-while curr_lon < end_lon or curr_lat > end_lat:
+while curr_lon <= end_lon:
     try:
         results = geocoder.reverse_geocode(curr_lat, curr_lon)
         if re.search("^(\d+)$",str(results[0]).split()[0]) is not None:

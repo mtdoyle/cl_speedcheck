@@ -12,6 +12,12 @@ state='MN'
 
 filename = 'results_%s.csv'%(datetime.now().strftime("%Y-%m-%d"))
 
+count = 1
+while os.path.isfile(filename):
+    filename = 'results_%s_%s.csv'%(datetime.now().strftime("%Y-%m-%d"), count)
+    count = count + 1
+
+
 if not os.path.isfile(filename):
     f = open(filename,'w')
     f.write("Street, City, State, Zip, Speed,emm_lat, emm_lng, emm_acc\n")
@@ -23,6 +29,7 @@ def test3(address, emm_stuff):
         address = "%s, %s, %s, %s"%(address_tmp[0],address_tmp[1],state,address_tmp[2])
         service_args = [
             '--proxy=localhost:3128',
+            '--load-images=false'
         ]
 	dcap = {}
 	dcap["phantomjs.page.settings.userAgent"] = (
