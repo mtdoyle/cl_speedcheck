@@ -9,22 +9,23 @@ from selenium import webdriver
 state='MN'
 
 filename = 'results_%s.csv'%(datetime.now().strftime("%Y-%m-%d"))
-bad_addresses = filename+'_bad_addresses'
 
 f = open(filename,'w')
 f.write("Street, City, State, Zip, Speed,emm_lat, emm_lng, emm_acc\n")
 f.close()
 
-e = open(bad_addresses,'w')
-e.close()
-
 def test3(address, emm_stuff):
     address_tmp = address.split(',')
     address = "%s, %s, %s, %s"%(address_tmp[0],address_tmp[1],state,address_tmp[3])
+    print address
     service_args = [
         '--proxy=localhost:3128',
     ]
-    browser = webdriver.PhantomJS('/usr/bin/phantomjs', service_args=service_args)
+    dcap = {} 
+    dcap["phantomjs.page.settings.userAgent"] = (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A"
+    )
+    browser = webdriver.PhantomJS('/usr/bin/phantomjs', service_args=service_args,desired_capabilities=dcap)
     browser.set_window_size(640,480)
     browser.get('http://www.centurylink.com/')
     browser.find_element_by_id('landingRes').click()
@@ -34,8 +35,11 @@ def test3(address, emm_stuff):
     browser.find_element_by_css_selector('.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all')
     time.sleep(2)
     addressFound = browser.find_element_by_css_selector('li.ui-menu-item:nth-child(1) > a:nth-child(1)').text
-    print addressFound
     browser.find_element_by_css_selector('li.ui-menu-item:nth-child(1) > a:nth-child(1)').click()
+    try:
+        browser.find_element_by_css_selector('modal-button.btn-modal-show-options').click()
+    except:
+        print "nope"
 
     addressFound_formatted = re.sub(r'%s (\d+)'%(state), r'%s,\1'%(state), addressFound)
     addressFound_formatted = re.sub(',USA', '', addressFound_formatted)
@@ -63,7 +67,7 @@ def do_stuff(q):
         q.task_done()
 
 q = Queue(maxsize=0)
-num_threads = 50
+num_threads = 20
 
 for i in range(num_threads):
     worker = Thread(target=do_stuff, args=(q,))
