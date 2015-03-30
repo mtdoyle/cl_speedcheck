@@ -1,6 +1,5 @@
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 from pygeocoder import Geocoder
-from datetime import datetime
 import time
 import re
 
@@ -38,10 +37,11 @@ while curr_lon <= end_lon:
             l = str(results[0]).split(',')
             addr = ("%s,%s,%s"%(l[0],l[1].strip(),l[2].split()[1]))
             print addr
-            f = open(filename,'r+a')
+            f = open(filename,'r')
             if addr not in f.read():
                 accurate_coords = geocoder.geocode(addr).coordinates
                 addr = "%s,%s,%s,ROOFTOP"%(addr,accurate_coords[0], accurate_coords[1])
+                f = open(filename,'a')
                 f.write(addr+"\n")
             f.close()
         if curr_lat > end_lat:
