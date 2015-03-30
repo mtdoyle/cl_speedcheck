@@ -29,7 +29,7 @@ def test3(address, emm_stuff):
         address = "%s, %s, %s, %s"%(address_tmp[0],address_tmp[1],state,address_tmp[2])
         service_args = [
             '--proxy=localhost:3128',
-            '--load-images=false'
+            '--load-images=false',
         ]
 	dcap = {}
 	dcap["phantomjs.page.settings.userAgent"] = (
@@ -90,11 +90,11 @@ def do_stuff(q):
                 host='localhost'))
         channel = connection.channel()
         channel.queue_declare(queue='clspeed')
+        channel.basic_qos(prefetch_count=1)
         channel.basic_consume(callback,
-                          queue='clspeed',
-                          )
+                      queue='clspeed',
+                      )
         channel.start_consuming()
-        #run_test(q.get())
         q.task_done()
 
 q = Queue(maxsize=0)
