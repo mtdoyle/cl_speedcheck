@@ -31,14 +31,17 @@ def test3(address, emm_stuff):
             '--proxy=localhost:3128',
             '--load-images=false',
         ]
-	dcap = {}
-	dcap["phantomjs.page.settings.userAgent"] = (
-	    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A"
-	)
+        dcap = {}
+        dcap["phantomjs.page.settings.userAgent"] = (
+             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A"
+        )
         browser = webdriver.PhantomJS('/usr/bin/phantomjs', service_args=service_args,desired_capabilities=dcap)
-        browser.set_window_size(640,480)
+        browser.set_window_size(800,600)
         browser.get('http://www.centurylink.com/')
-        browser.find_element_by_id('landingRes').click()
+        try:
+            browser.find_element_by_id('landingRes').click()
+        except:
+            pass
         browser.find_element_by_id('home-speed-check').click()
         browser.find_element_by_id('ctam_new-customer-link').click()
         browser.find_element_by_id('ctam_nc-sfaddress').send_keys(address)
@@ -74,7 +77,6 @@ def test3(address, emm_stuff):
     except:
         pass
 
-
 def run_test(i):
     i = i.strip()
     emm_stuff = i.split(',')[-3:]
@@ -98,7 +100,7 @@ def do_stuff(q):
         q.task_done()
 
 q = Queue(maxsize=0)
-num_threads = 20
+num_threads = 30
 
 for i in range(num_threads):
     worker = Thread(target=do_stuff, args=(q,))
