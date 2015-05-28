@@ -36,7 +36,7 @@ def test3(address, emm_stuff):
              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A"
         )
         browser = webdriver.PhantomJS('/usr/bin/phantomjs', service_args=service_args,desired_capabilities=dcap)
-        browser.set_window_size(800,600)
+        browser.set_window_size(640,480)
         browser.get('http://www.centurylink.com/')
         try:
             browser.find_element_by_id('landingRes').click()
