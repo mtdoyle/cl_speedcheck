@@ -69,11 +69,12 @@ def test3(address, emm_stuff):
         except:
             element = browser.find_element_by_css_selector('.dialupOnly')
         extracted_speed_match = re.search("(\d+\.?\d?)",element.text)
-        output = re.sub('\s+',' ', addressFound_formatted+', '+extracted_speed_match.group(0))
-        f = open(filename,'a')
-        f.write(output+",%s,%s,%s\n"%(emm_stuff[0], emm_stuff[1],emm_stuff[2]))
+        if extracted_speed_match != "866":
+            output = re.sub('\s+',' ', addressFound_formatted+', '+extracted_speed_match.group(0))
+            f = open(filename,'a')
+            f.write(output+",%s,%s,%s\n"%(emm_stuff[0], emm_stuff[1],emm_stuff[2]))
+            f.close()
         browser.quit()
-        f.close()
     except:
         pass
 
