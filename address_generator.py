@@ -2,8 +2,12 @@
 from pygeocoder import Geocoder
 import time
 import re
+import sys
 
-filename = 'addresses'
+if len(sys.argv) > 1:
+    filename = sys.argv[1]
+else:
+    filename = "addresses"
 
 f = open(filename,'w')
 f.close()
